@@ -1,0 +1,7 @@
+faq-chatbot/
+├── app.py
+├── faq_data.json
+├── templates/
+│   └── index.html
+├── static/
+│   └── style.css

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FAQ Chatbot</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="chatbox">
+    <h2>FAQ Chatbot</h2>
+    <div id="chatLog" class="chat-log"></div>
+    <input type="text" id="userInput" placeholder="Ask a question..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const message = input.value;
+      if (!message) return;
+      document.getElementById("chatLog").innerHTML += `<div class="user">You: ${message}</div>`;
+      input.value = "";
+
+      fetch("/get_answer", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: message })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("chatLog").innerHTML += `<div class="bot">Bot: ${data.reply}</div>`;
+      });
+    }
+  </script>
+</body>
+</html>
